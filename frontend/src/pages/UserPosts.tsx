@@ -10,16 +10,15 @@ import { useGetData } from "../lib/apiCalls";
 import { PaginationState } from "@tanstack/react-table";
 import { PaginatedUsersResponse, Post, User } from "../utils/types";
 import { Loader } from "../components/Loader";
-import { Pagination } from "../components/Pagination";
 import { ConfirmDelete } from "../components/modals/ConfirmDelete";
 
 const UserPosts = () => {
   const [newPost, setNewPost] = useState(false);
   const [deletePost, setDeletePost] = useState(false);
   const [postIdToDelete, setPostIdToDelete] = useState<string>("");
-  const [pagination, setPagination] = useState<PaginationState>({
+  const [pagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 4,
+    pageSize: 400,
   });
 
   const navigate = useNavigate();
@@ -92,7 +91,7 @@ const UserPosts = () => {
               <span className="font-medium">• {posts?.total} Posts</span>
             </CustomText>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-4 sm:mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-4 sm:my-6">
               <div
                 onClick={toggleNewPost}
                 className="w-full h-full border border-dashed border-gray_300 flex flex-col justify-center items-center rounded-lg cursor-pointer py-4"
@@ -117,19 +116,6 @@ const UserPosts = () => {
               ))}
             </div>
           </section>
-
-          <Pagination
-            currentPage={pagination.pageIndex}
-            totalItems={posts?.total || 0}
-            pageSize={pagination.pageSize}
-            onPageChange={(newPage) =>
-              setPagination((prev) => ({
-                ...prev,
-                pageIndex: newPage,
-              }))
-            }
-            className="my-4"
-          />
 
           <Modal show={newPost} toggleModal={toggleNewPost}>
             <NewPost toggleModal={toggleNewPost} />

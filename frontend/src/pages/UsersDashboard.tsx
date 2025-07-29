@@ -12,7 +12,9 @@ import { useLocation } from "react-router";
 
 const UsersDashboard = () => {
   const location = useLocation();
-  const restorePage = location.state?.restorePage;
+  const searchParams = new URLSearchParams(location.search);
+  const pageParam = searchParams.get("page");
+  const restorePage = pageParam ? parseInt(pageParam) : undefined;
 
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -43,9 +45,9 @@ const UsersDashboard = () => {
         return (
           <div className="flex">
             <div className="">
-              <CustomText variant="medium" className="text-gray_600">
+              <p className="text-sm font-medium text-gray_600">
                 {info.getValue()}
-              </CustomText>
+              </p>
             </div>
           </div>
         );
@@ -72,10 +74,10 @@ const UsersDashboard = () => {
         const address = info.getValue();
         const formatted = `${address?.street}, ${address?.state}, ${address?.city}, ${address?.zipcode}`;
         return (
-          <div className="w-[392px] truncate">
+          <div className="w-[300px]">
             <CustomText
               variant="textSm"
-              className="whitespace-nowrap overflow-hidden text-ellipsis block"
+              className="whitespace-nowrap overflow-hidden text-ellipsis block w-full"
             >
               {formatted}
             </CustomText>
